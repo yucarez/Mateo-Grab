@@ -1,11 +1,11 @@
 # MateoGrab
 
-Local YouTube downloader. Runs a Flask server that serves a web UI and uses yt-dlp to download videos/audio.
+Local mp3/mp4 downloader. Runs a Flask server that serves a web UI and uses yt-dlp to download videos/audios.
 
 ## Requirements
 
 - Python 3.7+
-- FFmpeg
+- FFmpeg (must be on your PATH)
 
 ```bash
 pip install flask yt-dlp
@@ -13,16 +13,13 @@ pip install flask yt-dlp
 
 ## Usage
 
-```bash
-python server.py
-```
-
-Opens `http://localhost:5000` automatically. Downloads are saved to the `downloads/` folder.
+Double-click `MateoGrab.bat`. It starts the server and opens the app in your browser automatically. Downloads are saved to the `downloads/` folder.
 
 ## Files
 
 ```
-server.py            # Flask backend
-index.html           # Web UI
-Open MateoGrab.html  # Shortcut that redirects to localhost:5000
+server.py       # Flask backend
+index.html      # Web UI
+MateoGrab.bat   # Launcher (Windows)
+downloads/      # Output folder
 ```
