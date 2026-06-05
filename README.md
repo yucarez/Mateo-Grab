@@ -5,7 +5,7 @@ Local mp3/mp4 downloader. Runs a Flask server that serves a web UI and uses yt-d
 ## Requirements
 
 - Python 3.7+
-- FFmpeg (must be on your PATH)
+- FFmpeg
 
 ```bash
 pip install flask yt-dlp
@@ -13,13 +13,12 @@ pip install flask yt-dlp
 
 ## Usage
 
-Double-click `MateoGrab.bat`. It starts the server and opens the app in your browser automatically. Downloads are saved to the `downloads/` folder.
+Double-click `MateoGrab.bat`. It starts the server and opens the app in your browser automatically.
 
 ## Files
 
 ```
 server.py       # Flask backend
 index.html      # Web UI
-MateoGrab.bat   # Launcher (Windows)
-downloads/      # Output folder
+MateoGrab.bat   # Launcher
 ```
