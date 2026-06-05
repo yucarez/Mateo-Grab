@@ -1,5 +1,5 @@
 @echo off
-start "" python "%~dp0server.py"
+start "" pythonw "%~dp0server.py"
  
 :wait
 timeout /t 1 >nul
