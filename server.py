@@ -1,11 +1,3 @@
-#!/usr/bin/env python3
-"""
-server.py — Local backend for the YT Downloader UI
-Run with: python server.py
-Then open: http://localhost:5000
-Requires: pip install flask yt-dlp
-"""
-
 import os
 import sys
 import json
@@ -23,7 +15,7 @@ except ImportError:
 
 app = Flask(__name__, static_folder=".")
 
-# ── Config ────────────────────────────────────────────────────────────────────
+# config
 
 BASE_DIR    = Path(__file__).parent
 DOWNLOAD_DIR = BASE_DIR / "downloads"
@@ -41,14 +33,13 @@ MP3_BITRATE_MAP = {
     "best": "320", "320": "320", "192": "192", "128": "128", "96": "96",
 }
 
-# Active download jobs: id -> {status, progress, title, error}
+# active download jobs
 jobs = {}
 jobs_lock = threading.Lock()
 job_counter = [0]
 
 
-# ── Helpers ───────────────────────────────────────────────────────────────────
-
+# helpers
 def new_job_id():
     with jobs_lock:
         job_counter[0] += 1
@@ -56,11 +47,9 @@ def new_job_id():
         jobs[jid] = {"status": "queued", "progress": 0, "title": "", "speed": "", "eta": "", "error": ""}
         return jid
 
-
 def set_job(jid, **kwargs):
     with jobs_lock:
         jobs[jid].update(kwargs)
-
 
 def make_hooks(jid):
     def progress_hook(d):
@@ -130,7 +119,7 @@ def run_download(jid, url, fmt, quality):
         set_job(jid, status="error", error=str(e))
 
 
-# ── Routes ────────────────────────────────────────────────────────────────────
+# routes
 
 @app.route("/")
 def index():
@@ -199,13 +188,13 @@ def fmt_size(b):
     return f"{b:.1f} TB"
 
 
-# ── Launch ────────────────────────────────────────────────────────────────────
+# launch
 
 if __name__ == "__main__":
     url = "http://localhost:5000"
-    print(f"\n  🎵 YT Downloader running at {url}")
-    print(f"  📁 Downloads folder: {DOWNLOAD_DIR}")
-    print(f"  Press Ctrl+C to stop.\n")
-    # Open browser after short delay
+    print(f"\n YT Downloader running at {url}")
+    print(f"Downloads folder: {DOWNLOAD_DIR}")
+    print(f"Press Ctrl+C to stop.\n")
+    # open browser after short delay
     threading.Timer(1.2, lambda: webbrowser.open(url)).start()
     app.run(host="127.0.0.1", port=5000, debug=False)
