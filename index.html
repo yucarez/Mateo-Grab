@@ -5,24 +5,24 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>MateoGrab</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
-<link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
   :root {
-    --bg: #050505;
-    --surface: #0c0c0e;
-    --surface2: #141417;
-    --border: #222227;
-    --accent: #ff6a00;
-    --accent2: #ff8833;
+    --bg: #141414;
+    --surface: #292929;
+    --surface2: #363636;
+    --border: #444444;
+    --accent: #ffa31a;
+    --accent2: #ffb84d;
     --text: #f5f5f7;
-    --muted: #62626e;
-    --mp3-clr: #ff5500;
-    --mp4-clr: #ff9900;
-    --radius: 12px;
-    --font-head: 'Syne', sans-serif;
-    --font-mono: 'Space Mono', monospace;
+    --muted: #8e8e93;
+    --mp3-clr: #ffa31a;
+    --mp4-clr: #ffb84d;
+    --radius: 4px;
+    --font-head: 'Inter', sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
   }
 
   body {
@@ -31,18 +31,6 @@
     font-family: var(--font-head);
     min-height: 100vh;
     overflow-x: hidden;
-  }
-
-  body::before {
-    content: '';
-    position: fixed; 
-    inset: 0; 
-    z-index: 0;
-    background-image:
-      linear-gradient(rgba(255, 106, 0, 0.015) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(255, 106, 0, 0.015) 1px, transparent 1px);
-    background-size: 40px 40px;
-    pointer-events: none;
   }
 
   .app { 
@@ -60,14 +48,14 @@
   .logo-row { 
     display: flex; 
     align-items: center; 
-    gap: 16px; 
+    gap: 14px; 
     margin-bottom: 8px; 
   }
 
   .logo-icon {
-    width: 40px; 
-    height: 40px; 
-    border-radius: 8px;
+    width: 36px; 
+    height: 36px; 
+    border-radius: var(--radius);
     background: var(--accent); 
     display: grid; 
     place-items: center;
@@ -75,15 +63,15 @@
   }
 
   .logo-icon svg { 
-    width: 20px; 
-    height: 20px; 
-    stroke: #050505;
+    width: 18px; 
+    height: 18px; 
+    stroke: #292929;
   }
 
   h1 { 
-    font-size: 2.2rem; 
+    font-size: 2rem; 
     font-weight: 800; 
-    letter-spacing: -0.03em; 
+    letter-spacing: -0.02em; 
     line-height: 1; 
   }
 
@@ -93,10 +81,10 @@
 
   .tagline { 
     font-family: var(--font-mono); 
-    font-size: 0.8rem; 
+    font-size: 0.75rem; 
     color: var(--muted); 
-    margin-top: 6px; 
-    letter-spacing: 0.02em; 
+    margin-top: 8px; 
+    letter-spacing: 0.05em; 
   }
 
   .card {
@@ -131,13 +119,13 @@
     width: 100%; 
     background: var(--surface2); 
     border: 1px solid var(--border);
-    border-radius: 8px; 
+    border-radius: var(--radius); 
     color: var(--text);
     font-family: var(--font-mono); 
     font-size: 0.85rem;
     padding: 14px 14px 14px 48px;
     outline: none; 
-    transition: border-color .2s, box-shadow .2s;
+    transition: border-color .2s;
   }
 
   #urlInput::placeholder { 
@@ -146,14 +134,13 @@
 
   #urlInput:focus { 
     border-color: var(--accent); 
-    box-shadow: 0 0 0 3px rgba(255, 106, 0, 0.1); 
   }
 
   .paste-btn {
     background: var(--surface2); 
     border: 1px solid var(--border);
     color: var(--text); 
-    border-radius: 8px; 
+    border-radius: var(--radius); 
     padding: 0 20px;
     font-family: var(--font-mono); 
     font-size: 0.8rem; 
@@ -198,34 +185,34 @@
     background: var(--surface2); 
     border: 1px solid var(--border);
     color: var(--muted); 
-    border-radius: 6px; 
+    border-radius: var(--radius); 
     padding: 8px 20px;
     font-family: var(--font-head); 
     font-size: 0.85rem; 
-    font-weight: 700;
+    font-weight: 600;
     cursor: pointer; 
     transition: all .15s;
   }
 
   .toggle-btn:hover { 
-    border-color: rgba(255, 106, 0, 0.5); 
+    border-color: var(--accent); 
     color: var(--text); 
   }
 
   .toggle-btn.active[data-fmt="mp3"] { 
-    background: rgba(255, 85, 0, 0.1); 
+    background: rgba(255, 163, 26, 0.1); 
     border-color: var(--mp3-clr); 
     color: var(--mp3-clr); 
   }
 
   .toggle-btn.active[data-fmt="mp4"] { 
-    background: rgba(255, 153, 0, 0.1); 
+    background: rgba(255, 184, 77, 0.1); 
     border-color: var(--mp4-clr); 
     color: var(--mp4-clr); 
   }
 
   .toggle-btn.active[data-q] { 
-    background: rgba(255, 106, 0, 0.1); 
+    background: rgba(255, 163, 26, 0.1); 
     border-color: var(--accent); 
     color: var(--accent); 
   }
@@ -236,34 +223,28 @@
     background: var(--accent); 
     color: var(--bg);
     border: none; 
-    border-radius: 8px;
+    border-radius: var(--radius);
     font-family: var(--font-head); 
-    font-size: 1rem; 
-    font-weight: 800;
+    font-size: 0.95rem; 
+    font-weight: 700;
     padding: 16px; 
     cursor: pointer; 
-    letter-spacing: 0.01em;
-    transition: transform .1s, box-shadow .2s, background .2s;
+    letter-spacing: 0.02em;
+    transition: background .2s;
     display: flex; 
     align-items: center; 
     justify-content: center; 
     gap: 8px;
+    text-transform: uppercase;
   }
 
   .dl-btn:hover { 
     background: var(--accent2);
-    box-shadow: 0 4px 20px rgba(255, 106, 0, 0.2); 
-  }
-
-  .dl-btn:active { 
-    transform: scale(0.99); 
   }
 
   .dl-btn:disabled { 
     background: var(--surface2); 
     color: var(--muted); 
-    transform: none; 
-    box-shadow: none; 
     cursor: not-allowed; 
   }
 
@@ -287,12 +268,6 @@
     border-radius: var(--radius); 
     padding: 20px; 
     margin-bottom: 12px;
-    animation: slideIn .2s ease-out;
-  }
-
-  @keyframes slideIn { 
-    from { opacity: 0; transform: translateY(6px); } 
-    to { opacity: 1; transform: translateY(0); } 
   }
 
   .job-top { 
@@ -324,20 +299,20 @@
     font-size: 0.65rem; 
     font-weight: 700;
     padding: 3px 8px; 
-    border-radius: 4px; 
+    border-radius: var(--radius); 
     letter-spacing: 0.05em;
   }
 
   .badge-mp3 { 
-    background: rgba(255, 85, 0, 0.15); 
+    background: rgba(255, 163, 26, 0.15); 
     color: var(--mp3-clr); 
-    border: 1px solid rgba(255, 85, 0, 0.25); 
+    border: 1px solid rgba(255, 163, 26, 0.25); 
   }
 
   .badge-mp4 { 
-    background: rgba(255, 153, 0, 0.15); 
+    background: rgba(255, 184, 77, 0.15); 
     color: var(--mp4-clr); 
-    border: 1px solid rgba(255, 153, 0, 0.25); 
+    border: 1px solid rgba(255, 184, 77, 0.25); 
   }
 
   .job-speed { 
@@ -349,13 +324,12 @@
   .progress-bar-wrap { 
     height: 4px; 
     background: var(--surface2); 
-    border-radius: 2px; 
+    border-radius: var(--radius); 
     overflow: hidden; 
   }
 
   .progress-bar { 
     height: 100%; 
-    border-radius: 2px; 
     transition: width .3s ease; 
   }
 
@@ -396,7 +370,7 @@
   }
 
   .folder-title { 
-    font-size: 1.05rem; 
+    font-size: 1rem; 
     font-weight: 700; 
   }
 
@@ -404,7 +378,7 @@
     background: none; 
     border: 1px solid var(--border); 
     color: var(--muted);
-    border-radius: 6px; 
+    border-radius: var(--radius); 
     padding: 6px 14px; 
     font-family: var(--font-mono);
     font-size: 0.7rem; 
@@ -433,14 +407,13 @@
     gap: 16px;
     background: var(--surface2); 
     border: 1px solid var(--border);
-    border-radius: 8px; 
+    border-radius: var(--radius); 
     padding: 14px 18px;
     transition: border-color .15s;
-    animation: slideIn .2s ease-out;
   }
 
   .file-item:hover { 
-    border-color: rgba(255, 106, 0, 0.3); 
+    border-color: var(--border); 
   }
 
   .file-ext {
@@ -448,13 +421,13 @@
     font-size: 0.65rem; 
     font-weight: 700;
     padding: 4px 8px; 
-    border-radius: 4px; 
+    border-radius: var(--radius); 
     flex-shrink: 0;
   }
 
-  .ext-MP3 { background: rgba(255, 85, 0, 0.12); color: var(--mp3-clr); border: 1px solid rgba(255, 85, 0, 0.2); }
-  .ext-MP4 { background: rgba(255, 153, 0, 0.12); color: var(--mp4-clr); border: 1px solid rgba(255, 153, 0, 0.2); }
-  .ext-WEBM, .ext-M4A { background: rgba(255, 136, 51, 0.1); color: var(--accent2); border: 1px solid rgba(255, 136, 51, 0.15); }
+  .ext-MP3 { background: rgba(255, 163, 26, 0.12); color: var(--mp3-clr); border: 1px solid rgba(255, 163, 26, 0.2); }
+  .ext-MP4 { background: rgba(255, 184, 77, 0.12); color: var(--mp4-clr); border: 1px solid rgba(255, 184, 77, 0.2); }
+  .ext-WEBM, .ext-M4A { background: rgba(255, 163, 26, 0.1); color: var(--accent2); border: 1px solid rgba(255, 163, 26, 0.15); }
 
   .file-name { 
     flex: 1; 
@@ -480,7 +453,7 @@
   .icon-btn {
     background: none; 
     border: 1px solid var(--border); 
-    border-radius: 6px;
+    border-radius: var(--radius);
     color: var(--muted); 
     padding: 6px 10px; 
     cursor: pointer; 
@@ -500,7 +473,7 @@
 
   .empty-state svg { 
     margin-bottom: 14px; 
-    opacity: .2; 
+    opacity: .4; 
   }
 
   .empty-state p { 
@@ -517,7 +490,7 @@
     border: 1px solid var(--border);
     color: var(--text); 
     padding: 12px 28px; 
-    border-radius: 30px;
+    border-radius: var(--radius);
     font-family: var(--font-mono); 
     font-size: 0.8rem;
     transition: transform .25s cubic-bezier(.25, 1, .5, 1), opacity .2s;
@@ -552,7 +525,7 @@
 
   ::-webkit-scrollbar-thumb { 
     background: var(--border); 
-    border-radius: 3px; 
+    border-radius: var(--radius); 
   }
 
   @media (max-width: 600px) {
@@ -735,7 +708,7 @@
         </div>
       </div>
       <div class="progress-bar-wrap">
-        <div class="progress-bar ${fmt}" id="jp-${jid}" style="width:0%"></div>
+        <div class="progress-bar ${fmt}" id="jp-' + jid + '" style="width:0%"></div>
       </div>
       <div class="job-status-row">
         <span class="job-status-text" id="jss-${jid}">Queued</span>
