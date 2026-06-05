@@ -1,10 +1,3 @@
-#!/usr/bin/env python3
-"""
-server.py — MateoGrab backend for Render
-Deploy as a web service. Set start command to: python server.py
-Requires: pip install flask yt-dlp flask-cors
-"""
-
 import os
 import sys
 import tempfile
@@ -22,7 +15,8 @@ except ImportError:
 app = Flask(__name__)
 CORS(app)
 
-# ── Config ─────────────────────────────────────────────────────────────────────
+# config
+COOKIES_FILE = Path("/etc/secrets/cookies.txt")
 
 MP4_QUALITY_MAP = {
     "best": "bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best",
@@ -36,12 +30,10 @@ MP3_BITRATE_MAP = {
     "best": "320", "320": "320", "192": "192", "128": "128", "96": "96",
 }
 
-# ── Routes ─────────────────────────────────────────────────────────────────────
-
+# routes
 @app.route("/")
 def index():
     return jsonify({"status": "MateoGrab backend is running"})
-
 
 @app.route("/api/download", methods=["POST"])
 def download():
@@ -54,7 +46,6 @@ def download():
         return jsonify({"error": "No URL provided"}), 400
 
     try:
-        # Write to a temp file, then stream it to the browser
         with tempfile.TemporaryDirectory() as tmpdir:
             outtmpl = str(Path(tmpdir) / "%(title)s.%(ext)s")
 
@@ -65,6 +56,7 @@ def download():
                     "format": "bestaudio/best",
                     "quiet": True,
                     "no_warnings": True,
+                    "cookiefile": str(COOKIES_FILE) if COOKIES_FILE.exists() else None,
                     "postprocessors": [
                         {"key": "FFmpegExtractAudio", "preferredcodec": "mp3", "preferredquality": bitrate},
                         {"key": "FFmpegMetadata"},
@@ -78,13 +70,14 @@ def download():
                     "merge_output_format": "mp4",
                     "quiet": True,
                     "no_warnings": True,
+                    "cookiefile": str(COOKIES_FILE) if COOKIES_FILE.exists() else None,
                     "postprocessors": [{"key": "FFmpegMetadata"}],
                 }
 
             with yt_dlp.YoutubeDL(ydl_opts) as ydl:
                 ydl.download([url])
 
-            # Find the output file
+            # find output file
             files = list(Path(tmpdir).iterdir())
             if not files:
                 return jsonify({"error": "Download produced no output"}), 500
@@ -92,7 +85,7 @@ def download():
             out_file = files[0]
             mime = "audio/mpeg" if fmt == "mp3" else "video/mp4"
 
-            # Read into memory before temp dir is cleaned up
+            # read into memory before temp dir is cleaned up
             data_bytes = out_file.read_bytes()
             filename   = out_file.name
 
@@ -108,9 +101,7 @@ def download():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
-
-# ── Launch ─────────────────────────────────────────────────────────────────────
-
+# launch
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
     app.run(host="0.0.0.0", port=port, debug=False)
