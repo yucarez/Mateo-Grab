@@ -46,6 +46,7 @@ def download():
         return jsonify({"error": "No URL provided"}), 400
 
     try:
+        print("Cookies file exists:", COOKIES_FILE.exists(), flush=True)
         with tempfile.TemporaryDirectory() as tmpdir:
             outtmpl = str(Path(tmpdir) / "%(title)s.%(ext)s")
 
